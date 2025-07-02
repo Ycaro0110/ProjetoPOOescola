@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<title>Alunos</title>
+	<link rel="StyleSheet" type="text/css" href="style.css"></link>
+
+
+
+	<script type="text/javascript">
+        // <![CDATA[
+        function formatarCPF(campo) {
+            var cpf = campo.value.replace(/\D/g, '');
+
+            if (cpf.length <= 11) {
+                cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+                cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+                cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+            }
+
+            campo.value = cpf;
+        }
+        // ]]>
+    </script>
+</h:head>
+<h:body>
+
+	<div class="header">
+		<h1>Gerenciar Alunos</h1>
+
+	</div>
+
+	<h:form>
+		<h:panelGrid columns="2" cellpadding="5">
+
+			<h:outputLabel value="Nome:" for="nome" />
+			<h:inputText id="nome" value="#{alunoBean.aluno.nome}"
+				required="true" />
+
+			<h:outputLabel value="Idade:" for="idade" />
+			<h:inputText id="idade" value="#{alunoBean.aluno.idade}"
+				required="true" />
+
+			<h:outputLabel value="CPF:" for="cpf" />
+			<h:inputText id="cpf" value="#{alunoBean.aluno.cpf}"
+				onkeypress="formatarCPF(this)" maxlength="14" required="true" />
+
+			<h:outputLabel value="Email:" for="email" />
+			<h:inputText id="email" value="#{alunoBean.aluno.email}"
+				required="true" />
+
+			<h:outputLabel value="Rua:" for="rua" />
+			<h:inputText id="rua" value="#{alunoBean.aluno.endereco.rua}"
+				required="true" />
+
+			<h:outputLabel value="Número:" for="numero" />
+			<h:inputText id="numero" value="#{alunoBean.aluno.endereco.numero}"
+				required="true" />
+
+			<h:outputLabel value="Bairro:" for="bairro" />
+			<h:inputText id="bairro" value="#{alunoBean.aluno.endereco.bairro}"
+				required="true" />
+
+			<h:outputLabel value="Cidade:" for="cidade" />
+			<h:inputText id="cidade" value="#{alunoBean.aluno.endereco.cidade}"
+				required="true" />
+
+			<h:outputLabel value="Curso:" for="curso" />
+			<h:selectOneMenu id="curso" value="#{alunoBean.idCursoSelecionado}"
+				required="true">
+				<f:selectItem itemLabel="Selecione..." itemValue="#{null}" />
+				<f:selectItems value="#{alunoBean.cursos}" var="curso"
+					itemValue="#{curso.id}" itemLabel="#{curso.nome}" />
+			</h:selectOneMenu>
+
+		</h:panelGrid>
+
+		<h:panelGroup>
+			<h:commandButton value="Gravar" action="#{alunoBean.cadastrar}" />
+			<h:commandButton value="Atualizar" action="#{alunoBean.atualizar}" />
+			<h:commandButton value="Cancelar" action="#{alunoBean.init}"
+				immediate="true" />
+		</h:panelGroup>
+	</h:form>
+
+	<br />
+	<hr />
+	<br />
+
+	<h:form>
+		<h:dataTable value="#{alunoBean.alunos}" var="aluno" border="1">
+
+			<h:column>
+				<f:facet name="header">Nome</f:facet>
+				<h:outputText value="#{aluno.nome}" />
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">Idade</f:facet>
+				<h:outputText value="#{aluno.idade}" />
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">CPF</f:facet>
+				<h:outputText value="#{aluno.cpf}" />
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">Email</f:facet>
+				<h:outputText value="#{aluno.email}" />
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">Curso</f:facet>
+				<h:outputText value="#{aluno.curso.nome}" />
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">Ações</f:facet>
+				<h:commandButton value="Editar" action="#{alunoBean.editar(aluno)}" />
+				<h:commandButton value="Excluir"
+					action="#{alunoBean.excluir(aluno)}" />
+			</h:column>
+
+		</h:dataTable>
+	</h:form>
+
+	<br />
+	<h:link value="Voltar à Página Inicial" outcome="index.xhtml" />
+
+	<div class="footer">
+
+		<p>Trabalho desenvolvido por Ycaro e João Pedro</p>
+
+	</div>
+
+</h:body>
+</html>
