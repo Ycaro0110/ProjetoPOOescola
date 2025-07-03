@@ -1,17 +1,14 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
 
 <h:head>
-	<title>Alunos</title>
-	<link rel="StyleSheet" type="text/css" href="style.css"></link>
-
-
-
-	<script type="text/javascript">
+    <title>Alunos</title>
+    <link rel="StyleSheet" type="text/css" href="style.css"/>
+    <script type="text/javascript">
         // <![CDATA[
         function formatarCPF(campo) {
             var cpf = campo.value.replace(/\D/g, '');
@@ -27,116 +24,168 @@
         // ]]>
     </script>
 </h:head>
+
 <h:body>
+    <div class="header">
+        <h1>Gerenciar Alunos</h1>
+    </div>
 
-	<div class="header">
-		<h1>Gerenciar Alunos</h1>
+    <h:form>
+    	<h:messages globalOnly="true" layout="table" style="color: green;" />
+        <h:panelGrid columns="2" cellpadding="5">
 
-	</div>
+            <h:outputLabel value="Nome:" for="nome"/>
+            <h:panelGroup>
+                <h:inputText id="nome" value="#{alunoBean.aluno.nome}" required="true"
+                             requiredMessage="O campo Nome é obrigatório."/>
+                <h:message for="nome" style="color:red;"/>
+            </h:panelGroup>
 
-	<h:form>
-		<h:panelGrid columns="2" cellpadding="5">
+            <h:outputLabel value="Idade:" for="idade"/>
+            <h:panelGroup>
+                <h:inputText id="idade" value="#{alunoBean.aluno.idade}" required="true"
+                             requiredMessage="O campo Idade é obrigatório."/>
+                <h:message for="idade" style="color:red;"/>
+            </h:panelGroup>
 
-			<h:outputLabel value="Nome:" for="nome" />
-			<h:inputText id="nome" value="#{alunoBean.aluno.nome}"
-				required="true" />
+            <h:outputLabel value="CPF:" for="cpf"/>
+            <h:panelGroup>
+                <h:inputText id="cpf" value="#{alunoBean.aluno.cpf}"
+                             readonly="#{alunoBean.editando}"
+                             onkeypress="formatarCPF(this)" maxlength="14"
+                             required="true"
+                             requiredMessage="O campo CPF é obrigatório."/>
+                <h:message for="cpf" style="color:red;"/>
+            </h:panelGroup>
 
-			<h:outputLabel value="Idade:" for="idade" />
-			<h:inputText id="idade" value="#{alunoBean.aluno.idade}"
-				required="true" />
+            <h:outputLabel value="Email:" for="email"/>
+            <h:panelGroup>
+                <h:inputText id="email" value="#{alunoBean.aluno.email}" required="true"
+                             requiredMessage="O campo Email é obrigatório."/>
+                <h:message for="email" style="color:red;"/>
+            </h:panelGroup>
 
-			<h:outputLabel value="CPF:" for="cpf" />
-			<h:inputText id="cpf" value="#{alunoBean.aluno.cpf}"
-				onkeypress="formatarCPF(this)" maxlength="14" required="true" />
+            <h:outputLabel value="Rua:" for="rua"/>
+            <h:panelGroup>
+                <h:inputText id="rua" value="#{alunoBean.aluno.endereco.rua}" required="true"
+                             requiredMessage="O campo Rua é obrigatório."/>
+                <h:message for="rua" style="color:red;"/>
+            </h:panelGroup>
 
-			<h:outputLabel value="Email:" for="email" />
-			<h:inputText id="email" value="#{alunoBean.aluno.email}"
-				required="true" />
+            <h:outputLabel value="Número:" for="numero"/>
+            <h:panelGroup>
+                <h:inputText id="numero" value="#{alunoBean.aluno.endereco.numero}" required="true"
+                             requiredMessage="O campo Número é obrigatório."/>
+                <h:message for="numero" style="color:red;"/>
+            </h:panelGroup>
 
-			<h:outputLabel value="Rua:" for="rua" />
-			<h:inputText id="rua" value="#{alunoBean.aluno.endereco.rua}"
-				required="true" />
+            <h:outputLabel value="Bairro:" for="bairro"/>
+            <h:panelGroup>
+                <h:inputText id="bairro" value="#{alunoBean.aluno.endereco.bairro}" required="true"
+                             requiredMessage="O campo Bairro é obrigatório."/>
+                <h:message for="bairro" style="color:red;"/>
+            </h:panelGroup>
 
-			<h:outputLabel value="Número:" for="numero" />
-			<h:inputText id="numero" value="#{alunoBean.aluno.endereco.numero}"
-				required="true" />
+            <h:outputLabel value="Cidade:" for="cidade"/>
+            <h:panelGroup>
+                <h:inputText id="cidade" value="#{alunoBean.aluno.endereco.cidade}" required="true"
+                             requiredMessage="O campo Cidade é obrigatório."/>
+                <h:message for="cidade" style="color:red;"/>
+            </h:panelGroup>
 
-			<h:outputLabel value="Bairro:" for="bairro" />
-			<h:inputText id="bairro" value="#{alunoBean.aluno.endereco.bairro}"
-				required="true" />
+            <h:outputLabel value="Curso:" for="curso"/>
+            <h:panelGroup>
+                <h:selectOneMenu id="curso" value="#{alunoBean.idCursoSelecionado}" required="true"
+                                 requiredMessage="O campo Curso é obrigatório.">
+                    <f:selectItem itemLabel="Selecione..." itemValue="#{null}" />
+                    <f:selectItems value="#{alunoBean.cursos}" var="curso"
+                                   itemValue="#{curso.id}" itemLabel="#{curso.nome}" />
+                </h:selectOneMenu>
+                <h:message for="curso" style="color:red;" />
+            </h:panelGroup>
 
-			<h:outputLabel value="Cidade:" for="cidade" />
-			<h:inputText id="cidade" value="#{alunoBean.aluno.endereco.cidade}"
-				required="true" />
+        </h:panelGrid>
 
-			<h:outputLabel value="Curso:" for="curso" />
-			<h:selectOneMenu id="curso" value="#{alunoBean.idCursoSelecionado}"
-				required="true">
-				<f:selectItem itemLabel="Selecione..." itemValue="#{null}" />
-				<f:selectItems value="#{alunoBean.cursos}" var="curso"
-					itemValue="#{curso.id}" itemLabel="#{curso.nome}" />
-			</h:selectOneMenu>
+        <h:panelGroup layout="block" style="margin-top: 15px;">
+            <h:commandButton value="Gravar" action="#{alunoBean.cadastrar}"
+                             rendered="#{!alunoBean.editando}" />
+            <h:commandButton value="Atualizar" action="#{alunoBean.atualizar}"
+                             rendered="#{alunoBean.editando}" />
+            <h:commandButton value="Cancelar" action="#{alunoBean.cancelar}"
+                 			 rendered="#{alunoBean.editando}" immediate="true">
+    			<f:ajax render="@form" />
+			</h:commandButton>
 
-		</h:panelGrid>
+        </h:panelGroup>
+    </h:form>
 
-		<h:panelGroup>
-			<h:commandButton value="Gravar" action="#{alunoBean.cadastrar}" />
-			<h:commandButton value="Atualizar" action="#{alunoBean.atualizar}" />
-			<h:commandButton value="Cancelar" action="#{alunoBean.init}"
-				immediate="true" />
-		</h:panelGroup>
+    <br/>
+    <hr/>
+    <br/>
+
+	   <h:form>
+	    <h:dataTable value="#{alunoBean.alunos}" var="aluno" border="1">
+	
+	        <h:column>
+	            <f:facet name="header">Nome</f:facet>
+	            <h:outputText value="#{aluno.nome}" />
+	        </h:column>
+	
+	        <h:column>
+	            <f:facet name="header">Idade</f:facet>
+	            <h:outputText value="#{aluno.idade}" />
+	        </h:column>
+	
+	        <h:column>
+	            <f:facet name="header">CPF</f:facet>
+	            <h:outputText value="#{aluno.cpf}" />
+	        </h:column>
+	
+	        <h:column>
+	            <f:facet name="header">Email</f:facet>
+	            <h:outputText value="#{aluno.email}" />
+	        </h:column>
+	
+	        <h:column>
+	            <f:facet name="header">Curso</f:facet>
+	            <h:outputText value="#{aluno.curso.nome}" />
+	        </h:column>
+	
+	        <h:column>
+	            <f:facet name="header">Rua</f:facet>
+	            <h:outputText value="#{aluno.endereco.rua}" />
+	        </h:column>
+	
+	        <h:column>
+	            <f:facet name="header">Número</f:facet>
+	            <h:outputText value="#{aluno.endereco.numero}" />
+	        </h:column>
+	
+	        <h:column>
+	            <f:facet name="header">Bairro</f:facet>
+	            <h:outputText value="#{aluno.endereco.bairro}" />
+	        </h:column>
+	
+	        <h:column>
+	            <f:facet name="header">Cidade</f:facet>
+	            <h:outputText value="#{aluno.endereco.cidade}" />
+	        </h:column>
+	
+	        <h:column>
+	            <f:facet name="header">Ações</f:facet>
+	            <h:commandButton value="Editar" action="#{alunoBean.editar(aluno)}" />
+	            <h:commandButton value="Excluir" action="#{alunoBean.excluir(aluno)}" />
+	        </h:column>
+	
+	    </h:dataTable>
 	</h:form>
 
-	<br />
-	<hr />
-	<br />
+    <br/>
+    <h:link value="Voltar à Página Inicial" outcome="index.xhtml" />
 
-	<h:form>
-		<h:dataTable value="#{alunoBean.alunos}" var="aluno" border="1">
-
-			<h:column>
-				<f:facet name="header">Nome</f:facet>
-				<h:outputText value="#{aluno.nome}" />
-			</h:column>
-
-			<h:column>
-				<f:facet name="header">Idade</f:facet>
-				<h:outputText value="#{aluno.idade}" />
-			</h:column>
-
-			<h:column>
-				<f:facet name="header">CPF</f:facet>
-				<h:outputText value="#{aluno.cpf}" />
-			</h:column>
-
-			<h:column>
-				<f:facet name="header">Email</f:facet>
-				<h:outputText value="#{aluno.email}" />
-			</h:column>
-
-			<h:column>
-				<f:facet name="header">Curso</f:facet>
-				<h:outputText value="#{aluno.curso.nome}" />
-			</h:column>
-
-			<h:column>
-				<f:facet name="header">Ações</f:facet>
-				<h:commandButton value="Editar" action="#{alunoBean.editar(aluno)}" />
-				<h:commandButton value="Excluir"
-					action="#{alunoBean.excluir(aluno)}" />
-			</h:column>
-
-		</h:dataTable>
-	</h:form>
-
-	<br />
-	<h:link value="Voltar à Página Inicial" outcome="index.xhtml" />
-
-	<div class="footer">
-
-		<p>Trabalho desenvolvido por Ycaro e João Pedro</p>
-
-	</div>
+    <div class="footer">
+        <p>Trabalho desenvolvido por Ycaro e João Pedro do Couto</p>
+    </div>
 
 </h:body>
 </html>

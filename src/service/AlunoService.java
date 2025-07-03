@@ -54,4 +54,13 @@ public class AlunoService extends GenericService<Aluno> {
 
         return getEntityManager().createQuery(cq).getResultList();
     }
+    
+    @Override
+    public List<Aluno> listarTodos() {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Aluno> cq = cb.createQuery(Aluno.class);
+        Root<Aluno> root = cq.from(Aluno.class);
+        cq.select(root).orderBy(cb.asc(root.get("nome")));
+        return getEntityManager().createQuery(cq).getResultList();
+    }
 }

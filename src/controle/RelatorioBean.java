@@ -42,7 +42,6 @@ public class RelatorioBean implements Serializable {
         alunosFiltrados = alunoServ.filtrarRelatorio(idCursoSelecionado, idadeMin, idadeMax, cidade);
     }
 
-    // Getters e Setters
 
     public Long getIdCursoSelecionado() { return idCursoSelecionado; }
     public void setIdCursoSelecionado(Long idCursoSelecionado) { this.idCursoSelecionado = idCursoSelecionado; }
