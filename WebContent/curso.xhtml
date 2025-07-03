@@ -7,41 +7,60 @@
 
 <h:head>
     <title>Gerenciar Cursos</title>
+    <link rel="StyleSheet" type="text/css" href="style.css"/>
 </h:head>
+
 <h:body>
 
 <div class="header">
-		<h1>Gerenciar cursos</h1>
-		<link rel="StyleSheet" type="text/css" href="style.css"></link>
-	
-	</div>
+    <h1>Gerenciar cursos</h1>
+</div>
 
 <h:form>
-    <h:panelGrid columns="2">
+    <h:messages globalOnly="true" layout="table" style="color: green;" />
+
+    <h:panelGrid columns="2" cellpadding="5">
 
         <h:outputLabel for="nome" value="Nome:" />
-        <h:inputText id="nome" value="#{cursoBean.curso.nome}" required="true" />
+        <h:panelGroup>
+            <h:inputText id="nome" value="#{cursoBean.curso.nome}" required="true"
+                         requiredMessage="O campo Nome é obrigatório." />
+            <h:message for="nome" style="color:red;" />
+        </h:panelGroup>
 
         <h:outputLabel for="area" value="Área:" />
-        <h:inputText id="area" value="#{cursoBean.curso.area}" required="true" />
+        <h:panelGroup>
+            <h:inputText id="area" value="#{cursoBean.curso.area}" required="true"
+                         requiredMessage="O campo Área é obrigatório." />
+            <h:message for="area" style="color:red;" />
+        </h:panelGroup>
 
         <h:outputLabel for="duracao" value="Duração:" />
-        <h:inputText id="duracao" value="#{cursoBean.curso.duracao}" required="true" />
+        <h:panelGroup>
+            <h:inputText id="duracao" value="#{cursoBean.curso.duracao}" required="true"
+                         requiredMessage="O campo Duração é obrigatório." />
+            <h:message for="duracao" style="color:red;" />
+        </h:panelGroup>
 
     </h:panelGrid>
 
-    <br/>
-
-    <h:commandButton action="#{cursoBean.cadastrar}" value="Gravar" />
-    <h:commandButton action="#{cursoBean.atualizar}" value="Atualizar" />
-    <h:commandButton action="#{cursoBean.init}" value="Cancelar" />
+    <h:panelGroup layout="block" style="margin-top: 15px;">
+        <h:commandButton action="#{cursoBean.cadastrar}" value="Gravar"
+                         rendered="#{!cursoBean.editando}" />
+        <h:commandButton action="#{cursoBean.atualizar}" value="Atualizar"
+                         rendered="#{cursoBean.editando}" />
+        <h:commandButton action="#{cursoBean.cancelar}" value="Cancelar"
+                         rendered="#{cursoBean.editando}" immediate="true">
+        	<f:ajax render="@form" />
+        </h:commandButton>
+                     
+    </h:panelGroup>
 
 </h:form>
 
 <br/><br/>
 
 <h:form>
-
     <h:dataTable value="#{cursoBean.cursos}" var="c" border="1">
 
         <h:column>
@@ -66,17 +85,14 @@
         </h:column>
 
     </h:dataTable>
-
 </h:form>
 
- <br/>
-    <h:link value="Voltar à Página Inicial" outcome="index.xhtml" />
-    
- 	<div class="footer">
+<br/>
+<h:link value="Voltar à Página Inicial" outcome="index.xhtml" />
 
-		<p>Trabalho desenvolvido por Ycaro e João Pedro</p>
-
-	</div>
+<div class="footer">
+    <p>Trabalho desenvolvido por Ycaro e João Pedro</p>
+</div>
 
 </h:body>
 </html>

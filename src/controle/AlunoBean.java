@@ -27,63 +27,72 @@ public class AlunoBean implements Serializable {
 
     @Inject
     private CursoService cursoServ;
-    
+
     private Long idCursoSelecionado;
+    
+    private boolean editando = false;
 
     @PostConstruct
     public void init() {
         alunos = alunoServ.listarTodos();
-        cursos = cursoServ.listarTodos(); // usado no <h:selectOneMenu>
+        cursos = cursoServ.listarTodos();
     }
-
-    public void cadastrar() {
-        Curso curso = cursoServ.buscarPorId(idCursoSelecionado);
-        aluno.setCurso(curso);
-        alunoServ.cadastrar(aluno);
-        FacesContext.getCurrentInstance().addMessage(null,
-            new FacesMessage(FacesMessage.SEVERITY_INFO, "Aluno cadastrado com sucesso!", null));
-        aluno = new Aluno();
-        idCursoSelecionado = null;
-        init();
-    }
-
+    
     public void editar(Aluno alunoSelecionado) {
         this.aluno = alunoSelecionado;
+        this.editando = true;
         if (aluno.getCurso() != null) {
             this.idCursoSelecionado = aluno.getCurso().getId();
         }
     }
 
+    public void cadastrar() {
+        aluno.setCurso(cursoServ.buscarPorId(idCursoSelecionado));
+        alunoServ.cadastrar(aluno);
+        FacesContext.getCurrentInstance().addMessage(null,
+            new FacesMessage(FacesMessage.SEVERITY_INFO, "Aluno cadastrado com sucesso!", null));
+        aluno = new Aluno();
+        idCursoSelecionado = null;
+        editando = false;
+        init();
+    }
+
     public void atualizar() {
-        Curso curso = cursoServ.buscarPorId(idCursoSelecionado);
-        aluno.setCurso(curso);
+        aluno.setCurso(cursoServ.buscarPorId(idCursoSelecionado));
         alunoServ.atualizar(aluno);
         FacesContext.getCurrentInstance().addMessage(null,
             new FacesMessage(FacesMessage.SEVERITY_INFO, "Aluno atualizado com sucesso!", null));
         aluno = new Aluno();
         idCursoSelecionado = null;
+        editando = false;
         init();
     }
+
+    public void cancelar() {
+        aluno = new Aluno();
+        idCursoSelecionado = null;
+        editando = false;
+        FacesContext.getCurrentInstance().addMessage(null,
+            new FacesMessage(FacesMessage.SEVERITY_INFO, "Edição cancelada.", null));
+        init();
+    }
+
+    
 
     public void excluir(Aluno aluno) {
         alunoServ.remover(aluno);
         FacesContext.getCurrentInstance().addMessage(null,
-            new FacesMessage(FacesMessage.SEVERITY_INFO,
-                "Aluno excluído com sucesso!", null));
+            new FacesMessage(FacesMessage.SEVERITY_INFO, "Aluno excluído com sucesso!", null));
         init();
     }
 
+    public boolean isEditando() { return editando; }
     public Aluno getAluno() { return aluno; }
     public void setAluno(Aluno aluno) { this.aluno = aluno; }
 
     public List<Aluno> getAlunos() { return alunos; }
     public List<Curso> getCursos() { return cursos; }
-    
-    public Long getIdCursoSelecionado() {
-        return idCursoSelecionado;
-    }
 
-    public void setIdCursoSelecionado(Long idCursoSelecionado) {
-        this.idCursoSelecionado = idCursoSelecionado;
-    }
+    public Long getIdCursoSelecionado() { return idCursoSelecionado; }
+    public void setIdCursoSelecionado(Long idCursoSelecionado) { this.idCursoSelecionado = idCursoSelecionado; }
 }
